@@ -49,6 +49,21 @@ BrowserTypeLiteral = Literal[
     "firefox144",
     "firefox147",
     "tor145",
+    # Brave (custom profiles)
+    "brave136_mac",
+    "brave136_win",
+    "brave136_android",
+    "brave145_mac",
+    "brave145_win",
+    "brave145_android",
+    # Tor Browser 15.0.8 (custom profile)
+    "tor1508",
+    # Experimental mobile profiles
+    "okhttp4_android10",
+    "uc110_9",
+    "uc17_9",
+    "samsung27_1",
+    "xiaomi15_9",
     # alias
     "chrome",
     "edge",
@@ -164,6 +179,21 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     firefox144 = "firefox144"
     firefox147 = "firefox147"
     tor145 = "tor145"
+    # Brave (custom profiles)
+    brave136_mac = "brave136_mac"
+    brave136_win = "brave136_win"
+    brave136_android = "brave136_android"
+    brave145_mac = "brave145_mac"
+    brave145_win = "brave145_win"
+    brave145_android = "brave145_android"
+    # Tor Browser 15.0.8 (custom profile)
+    tor1508 = "tor1508"
+    # Experimental mobile profiles
+    okhttp4_android10 = "okhttp4_android10"
+    uc110_9 = "uc110_9"
+    uc17_9 = "uc17_9"
+    samsung27_1 = "samsung27_1"
+    xiaomi15_9 = "xiaomi15_9"
 
     # deprecated aliases
     safari15_3 = "safari15_3"

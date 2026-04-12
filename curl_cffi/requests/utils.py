@@ -21,6 +21,7 @@ from ..fingerprints import Fingerprint, FingerprintManager, NATIVE_IMPERSONATE_T
 from .cookies import Cookies
 from .exceptions import ImpersonateError, InvalidURL
 from .headers import Headers
+from .custom_profiles import get_custom_profile
 from .impersonate import (
     TLS_CIPHER_NAME_MAP,
     TLS_EC_CURVES_MAP,
@@ -564,6 +565,25 @@ def _apply_fingerprint(
             curl.setopt(CurlOpt.HTTPHEADER, [h.encode() for h in header_lines])
 
 
+def apply_custom_profile(curl: Curl, profile_name: object):
+    profile = get_custom_profile(profile_name)
+    if profile is None:
+        return None
+
+    set_ja3_options(curl, profile.ja3, permute=profile.permute_extensions)
+    if profile.extra_fp:
+        if isinstance(profile.extra_fp, dict):
+            extra_fp = ExtraFingerprints(**profile.extra_fp)
+        else:
+            extra_fp = profile.extra_fp
+        set_extra_fp(curl, extra_fp)
+    if profile.akamai:
+        set_akamai_options(curl, profile.akamai)
+    for option, setting in profile.curl_options.items():
+        curl.setopt(option, setting)
+    return profile
+
+
 def set_curl_options(
     curl: Curl,
     method: HttpMethod,
@@ -665,10 +685,17 @@ def set_curl_options(
 
     # headers
     base_headers, headers = headers_list
+    custom_profile = None
+    if impersonate:
+        custom_profile = apply_custom_profile(c, impersonate)
 
     # let headers encoding take precedence over base headers encoding
     encoding = headers.encoding if isinstance(headers, Headers) else None
-    h = Headers(base_headers, encoding=encoding)
+    profile_headers = (
+        custom_profile.headers if custom_profile and default_headers else None
+    )
+    h = Headers(profile_headers, encoding=encoding)
+    h.update(base_headers)
     h.update(headers)
 
     # Previously we removed Host for https://github.com/lexiforest/curl_cffi/issues/119
@@ -864,7 +891,7 @@ def set_curl_options(
         c.setopt(CurlOpt.HTTP_VERSION, http_version)
 
     # impersonate
-    if impersonate:
+    if impersonate and custom_profile is None:
         if isinstance(impersonate, Fingerprint):
             _apply_fingerprint(c, impersonate, existing_header_names, default_headers)
         else:

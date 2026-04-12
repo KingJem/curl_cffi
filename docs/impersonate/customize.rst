@@ -55,6 +55,33 @@ You can retrieve the JA3 and Akamai strings using tools like WireShark or from T
    print(r.json())
 
 
+Experimental mobile presets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to raw ``ja3`` / ``akamai`` strings, curl_cffi also exposes a few
+Python-side mobile presets that are built from public fingerprint dumps. These
+are best-effort mappings and are mainly meant for experimentation:
+
+* ``okhttp4_android10``
+* ``uc110_9``
+* ``uc17_9``
+* ``samsung27_1``
+* ``xiaomi15_9``
+
+Example:
+
+.. code-block:: python
+
+   import curl_cffi.requests as requests
+
+   r = requests.get("https://tls.browserleaks.com/json", impersonate="samsung27_1")
+   print(r.json())
+
+These profiles are intentionally conservative and may not match a real device
+exactly. ``uc110_9`` is included as an experimental mapping because the source
+profile uses an unusual Akamai setting value.
+
+
 JA3 and Akamai String Format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

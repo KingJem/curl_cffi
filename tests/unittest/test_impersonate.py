@@ -2,6 +2,17 @@ import pytest
 
 from curl_cffi import requests
 from curl_cffi.const import CurlHttpVersion, CurlSslVersion
+from curl_cffi.requests.custom_profiles import get_custom_profile
+from curl_cffi.requests.utils import apply_custom_profile
+from curl_cffi.const import CurlOpt
+
+
+class DummyCurl:
+    def __init__(self):
+        self.options = []
+
+    def setopt(self, option, setting):
+        self.options.append((option, setting))
 
 
 def _find_http2_frame(
@@ -53,6 +64,55 @@ def test_impersonate_non_exist(server):
         requests.get(str(server.url), impersonate="edge2131")
     with pytest.raises(requests.RequestsError, match="Impersonating"):
         requests.get(str(server.url), impersonate="chrome2952")
+
+
+def test_custom_mobile_profiles_registered():
+    for name in [
+        "okhttp4_android10",
+        "uc110_9",
+        "uc17_9",
+        "samsung27_1",
+        "xiaomi15_9",
+    ]:
+        assert get_custom_profile(name) is not None
+    assert get_custom_profile("does_not_exist") is None
+
+
+@pytest.mark.parametrize(
+    "profile_name, expected",
+    [
+        (
+            "okhttp4_android10",
+            {
+                CurlOpt.HTTP2_SETTINGS: "4:16777216",
+                CurlOpt.HTTP2_WINDOW_UPDATE: 16711681,
+                CurlOpt.HTTP2_PSEUDO_HEADERS_ORDER: "masp",
+                CurlOpt.SSL_CERT_COMPRESSION: "",
+            },
+        ),
+        (
+            "samsung27_1",
+            {
+                CurlOpt.HTTP2_SETTINGS: "1:65536;2:0;4:6291456;6:262144",
+                CurlOpt.ECH: "grease",
+                CurlOpt.SSL_ENABLE_ALPS: 1,
+            },
+        ),
+        (
+            "uc110_9",
+            {
+                CurlOpt.TLS_KEY_SHARES_LIMIT: 2,
+                CurlOpt.HTTP2_WINDOW_UPDATE: 15663105,
+            },
+        ),
+    ],
+)
+def test_apply_custom_mobile_profile(profile_name, expected):
+    curl = DummyCurl()
+    profile = apply_custom_profile(curl, profile_name)
+    assert profile is not None
+    for option, value in expected.items():
+        assert (option, value) in curl.options
 
 
 # TODO: implement local ja3/akamai verification server with th1.

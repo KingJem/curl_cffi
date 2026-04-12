@@ -1,0 +1,165 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Optional
+
+from ..const import CurlOpt
+from .impersonate import ExtraFingerprints
+
+
+@dataclass(frozen=True)
+class CustomProfileSpec:
+    ja3: str
+    akamai: Optional[str] = None
+    extra_fp: Optional[ExtraFingerprints | dict[str, object]] = None
+    headers: dict[str, str] = field(default_factory=dict)
+    curl_options: dict[CurlOpt, object] = field(default_factory=dict)
+    permute_extensions: bool = False
+
+
+OKHTTP4_ANDROID10 = CustomProfileSpec(
+    ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-51-45-43,29-23-24,0",
+    akamai="4:16777216|16711681|0|m,p,a,s",
+    extra_fp={
+        "tls_signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "rsa_pss_rsae_sha256",
+            "rsa_pkcs1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "rsa_pss_rsae_sha384",
+            "rsa_pkcs1_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha512",
+            "rsa_pkcs1_sha1",
+        ]
+    },
+    curl_options={
+        CurlOpt.SSL_CERT_COMPRESSION: "",
+    },
+)
+
+UC110_9 = CustomProfileSpec(
+    ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-17513-65037,29-23-24,0",
+    akamai="1:65536;3:1000;4:6291456;6:262144;43706:3053153145|15663105|0|m,a,s,p",
+    extra_fp={
+        "tls_grease": True,
+        "tls_permute_extensions": True,
+        "tls_cert_compression": "brotli",
+    },
+    headers={
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/130.0.0.0 Safari/537.36 UCPC/1.1.0.9"
+        )
+    },
+    curl_options={
+        CurlOpt.TLS_KEY_SHARES_LIMIT: 2,
+    },
+    permute_extensions=True,
+)
+
+UC17_9 = CustomProfileSpec(
+    ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-17513-65037-21,29-23-24,0",
+    akamai="1:65536;3:1000;4:6291456;6:262144|15663105|0|m,a,s,p",
+    extra_fp={
+        "tls_grease": True,
+        "tls_permute_extensions": True,
+        "tls_cert_compression": "brotli",
+        "tls_signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "rsa_pss_rsae_sha256",
+            "rsa_pkcs1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "rsa_pss_rsae_sha384",
+            "rsa_pkcs1_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha512",
+            "rsa_pkcs1_sha1",
+        ],
+    },
+    headers={
+        "User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 16_7_2 like Mac OS X; zh-CN) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/20H115 "
+            "UCBrowser/17.7.8.2650 Mobile  AliApp(TUnionSDK/0.1.20.4)"
+        )
+    },
+    permute_extensions=True,
+)
+
+SAMSUNG_27_1 = CustomProfileSpec(
+    ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-17513-65037,29-23-24,0",
+    akamai="1:65536;2:0;4:6291456;6:262144|15663105|0|m,a,s,p",
+    extra_fp={
+        "tls_grease": True,
+        "tls_permute_extensions": True,
+        "tls_cert_compression": "brotli",
+        "tls_signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "rsa_pss_rsae_sha256",
+            "rsa_pkcs1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "rsa_pss_rsae_sha384",
+            "rsa_pkcs1_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha512",
+            "rsa_pkcs1_sha1",
+        ],
+    },
+    headers={
+        "User-Agent": (
+            "Mozilla/5.0 (Linux; Android 10; K) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "SamsungBrowser/27.1 Chrome/125.0.0.0 Mobile Safari/537.36"
+        )
+    },
+    permute_extensions=True,
+)
+
+XIAOMI_15_9 = CustomProfileSpec(
+    ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-65037-21,29-23-24,0",
+    akamai="1:65536;3:1000;4:6291456;6:262144|15663105|0|m,a,s,p",
+    extra_fp={
+        "tls_grease": True,
+        "tls_permute_extensions": True,
+        "tls_cert_compression": "brotli",
+        "tls_signature_algorithms": [
+            "ecdsa_secp256r1_sha256",
+            "rsa_pss_rsae_sha256",
+            "rsa_pkcs1_sha256",
+            "ecdsa_secp384r1_sha384",
+            "rsa_pss_rsae_sha384",
+            "rsa_pkcs1_sha384",
+            "rsa_pss_rsae_sha512",
+            "rsa_pkcs1_sha512",
+            "rsa_pkcs1_sha1",
+        ],
+    },
+    headers={
+        "User-Agent": (
+            "Mozilla/5.0 (Linux; U; Android 11; zh-cn; M2006C3LC "
+            "Build/RP1A.200720.011) AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Version/4.0 Chrome/89.0.4389.116 Mobile Safari/537.36 "
+            "XiaoMi/MiuiBrowser/15.9.16 swan-mibrowser"
+        )
+    },
+    permute_extensions=True,
+)
+
+
+CUSTOM_PROFILES: dict[str, CustomProfileSpec] = {
+    "okhttp4_android10": OKHTTP4_ANDROID10,
+    "uc110_9": UC110_9,
+    "uc17_9": UC17_9,
+    "samsung27_1": SAMSUNG_27_1,
+    "xiaomi15_9": XIAOMI_15_9,
+}
+
+
+def get_custom_profile(profile_name: object) -> CustomProfileSpec | None:
+    if hasattr(profile_name, "value"):
+        profile_name = profile_name.value  # type: ignore[attr-defined]
+    if profile_name is None:
+        return None
+    return CUSTOM_PROFILES.get(str(profile_name))

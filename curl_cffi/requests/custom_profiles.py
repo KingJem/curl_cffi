@@ -33,6 +33,20 @@ def _chrome_headers(version: int, *, platform: str = "macOS") -> dict[str, str]:
             f"Chrome/{version}.0.0.0 Mobile Safari/537.36"
         )
         sec_ch_platform = '"Android"'
+    elif platform == "Linux":
+        ua = (
+            f"Mozilla/5.0 (X11; Linux x86_64) "
+            f"AppleWebKit/537.36 (KHTML, like Gecko) "
+            f"Chrome/{version}.0.0.0 Safari/537.36"
+        )
+        sec_ch_platform = '"Linux"'
+    elif platform == "iOS":
+        ua = (
+            f"Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) "
+            f"AppleWebKit/605.1.15 (KHTML, like Gecko) "
+            f"CriOS/{version}.0.0.0 Mobile/15E148 Safari/604.1"
+        )
+        sec_ch_platform = '"iOS"'
     else:
         ua = (
             f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -47,7 +61,7 @@ def _chrome_headers(version: int, *, platform: str = "macOS") -> dict[str, str]:
             f'"Google Chrome";v="{version}", '
             '"Not/A)Brand";v="24"'
         ),
-        "sec-ch-ua-mobile": "?1" if platform == "Android" else "?0",
+        "sec-ch-ua-mobile": "?1" if platform in {"Android", "iOS"} else "?0",
         "sec-ch-ua-platform": sec_ch_platform,
         "Upgrade-Insecure-Requests": "1",
         "User-Agent": ua,
@@ -144,6 +158,39 @@ CHROME_144 = CustomProfileSpec(
     base_impersonate="chrome146",
     headers=_chrome_headers(144),
 )
+
+
+def _chrome_profile(
+    version: int, *, platform: str, base_impersonate: object
+) -> CustomProfileSpec:
+    return CustomProfileSpec(
+        base_impersonate=base_impersonate,
+        headers=_chrome_headers(version, platform=platform),
+    )
+
+
+CHROME_PLATFORM_PROFILES: dict[str, CustomProfileSpec] = {}
+for version, desktop_base in (
+    (143, "chrome145"),
+    (144, "chrome146"),
+    (145, "chrome145"),
+    (146, "chrome146"),
+):
+    CHROME_PLATFORM_PROFILES[f"chrome{version}_windows"] = _chrome_profile(
+        version, platform="Windows", base_impersonate=desktop_base
+    )
+    CHROME_PLATFORM_PROFILES[f"chrome{version}_macos"] = _chrome_profile(
+        version, platform="macOS", base_impersonate=desktop_base
+    )
+    CHROME_PLATFORM_PROFILES[f"chrome{version}_linux"] = _chrome_profile(
+        version, platform="Linux", base_impersonate=desktop_base
+    )
+    CHROME_PLATFORM_PROFILES[f"chrome{version}_android"] = _chrome_profile(
+        version, platform="Android", base_impersonate="chrome131_android"
+    )
+    CHROME_PLATFORM_PROFILES[f"chrome{version}_ios"] = _chrome_profile(
+        version, platform="iOS", base_impersonate="safari260_ios"
+    )
 
 UC110_9 = CustomProfileSpec(
     ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-17513-65037,29-23-24,0",
@@ -276,6 +323,7 @@ CUSTOM_PROFILES: dict[str, CustomProfileSpec] = {
     "chrome141": CHROME_141,
     "chrome143": CHROME_143,
     "chrome144": CHROME_144,
+    **CHROME_PLATFORM_PROFILES,
     "uc110_9": UC110_9,
     "uc17_9": UC17_9,
     "safari18": SAFARI_18,

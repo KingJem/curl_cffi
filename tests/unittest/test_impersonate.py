@@ -78,6 +78,26 @@ def test_custom_mobile_profiles_registered():
         "chrome141",
         "chrome143",
         "chrome144",
+        "chrome143_windows",
+        "chrome143_macos",
+        "chrome143_linux",
+        "chrome143_android",
+        "chrome143_ios",
+        "chrome144_windows",
+        "chrome144_macos",
+        "chrome144_linux",
+        "chrome144_android",
+        "chrome144_ios",
+        "chrome145_windows",
+        "chrome145_macos",
+        "chrome145_linux",
+        "chrome145_android",
+        "chrome145_ios",
+        "chrome146_windows",
+        "chrome146_macos",
+        "chrome146_linux",
+        "chrome146_android",
+        "chrome146_ios",
         "uc110_9",
         "uc17_9",
         "safari18",
@@ -97,12 +117,46 @@ def test_custom_mobile_profiles_registered():
             "chrome141",
             {
                 "impersonate": "chrome145",
+                "ua_contains": "Chrome/141.0.0.0",
+                "platform": '"macOS"',
             },
         ),
         (
             "chrome144",
             {
                 "impersonate": "chrome146",
+            },
+        ),
+        (
+            "chrome143_windows",
+            {
+                "impersonate": "chrome145",
+                "ua_contains": "Chrome/143.0.0.0",
+                "platform": '"Windows"',
+            },
+        ),
+        (
+            "chrome144_android",
+            {
+                "impersonate": "chrome131_android",
+                "ua_contains": "Chrome/144.0.0.0",
+                "platform": '"Android"',
+            },
+        ),
+        (
+            "chrome145_ios",
+            {
+                "impersonate": "safari260_ios",
+                "ua_contains": "CriOS/145.0.0.0",
+                "platform": '"iOS"',
+            },
+        ),
+        (
+            "chrome146_linux",
+            {
+                "impersonate": "chrome146",
+                "ua_contains": "Chrome/146.0.0.0",
+                "platform": '"Linux"',
             },
         ),
         (
@@ -143,8 +197,14 @@ def test_apply_custom_mobile_profile(profile_name, expected):
     assert profile is not None
     if "impersonate" in expected:
         assert expected["impersonate"] == curl.impersonations[0][0]
+    if "ua_contains" in expected or "platform" in expected:
+        profile_headers = profile.headers
+        if "ua_contains" in expected:
+            assert expected["ua_contains"] in profile_headers["User-Agent"]
+        if "platform" in expected:
+            assert profile_headers["sec-ch-ua-platform"] == expected["platform"]
     for option, value in expected.items():
-        if option == "impersonate":
+        if option in {"impersonate", "ua_contains", "platform"}:
             continue
         assert (option, value) in curl.options
 

@@ -73,9 +73,9 @@ Notes:
 12. Fixed in version ``0.15.0``, previous User-Agent header was `not correct <https://github.com/lexiforest/curl-impersonate/issues/234>`_.
 13. Added in version ``0.15.0``.
 14. http3 support included.
-15. ``chrome133``, ``chrome141``, ``chrome143``, ``chrome144``, ``safari17_ios``,
-    ``safari18`` and ``safari18_ios`` are best-effort compatibility names for
-    the corresponding versions exposed by `httpcloak <https://github.com/sardanioss/httpcloak>`_.
+15. ``chrome133``, ``chrome141``, ``chrome143_*``, ``chrome144_*``, ``chrome145_*``,
+    ``chrome146_*``, ``safari17_ios``, ``safari18`` and ``safari18_ios`` are best-effort
+    compatibility names for the corresponding versions exposed by `httpcloak <https://github.com/sardanioss/httpcloak>`_.
 
 
 Which target version to use?

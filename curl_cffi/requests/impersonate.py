@@ -32,6 +32,26 @@ BrowserTypeLiteral = Literal[
     "chrome144",
     "chrome145",
     "chrome146",
+    "chrome143_windows",
+    "chrome143_macos",
+    "chrome143_linux",
+    "chrome143_android",
+    "chrome143_ios",
+    "chrome144_windows",
+    "chrome144_macos",
+    "chrome144_linux",
+    "chrome144_android",
+    "chrome144_ios",
+    "chrome145_windows",
+    "chrome145_macos",
+    "chrome145_linux",
+    "chrome145_android",
+    "chrome145_ios",
+    "chrome146_windows",
+    "chrome146_macos",
+    "chrome146_linux",
+    "chrome146_android",
+    "chrome146_ios",
     "chrome99_android",
     "chrome131_android",
     # Safari
@@ -168,6 +188,26 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     chrome144 = "chrome144"
     chrome145 = "chrome145"
     chrome146 = "chrome146"
+    chrome143_windows = "chrome143_windows"
+    chrome143_macos = "chrome143_macos"
+    chrome143_linux = "chrome143_linux"
+    chrome143_android = "chrome143_android"
+    chrome143_ios = "chrome143_ios"
+    chrome144_windows = "chrome144_windows"
+    chrome144_macos = "chrome144_macos"
+    chrome144_linux = "chrome144_linux"
+    chrome144_android = "chrome144_android"
+    chrome144_ios = "chrome144_ios"
+    chrome145_windows = "chrome145_windows"
+    chrome145_macos = "chrome145_macos"
+    chrome145_linux = "chrome145_linux"
+    chrome145_android = "chrome145_android"
+    chrome145_ios = "chrome145_ios"
+    chrome146_windows = "chrome146_windows"
+    chrome146_macos = "chrome146_macos"
+    chrome146_linux = "chrome146_linux"
+    chrome146_android = "chrome146_android"
+    chrome146_ios = "chrome146_ios"
     chrome99_android = "chrome99_android"
     chrome131_android = "chrome131_android"
     safari153 = "safari153"

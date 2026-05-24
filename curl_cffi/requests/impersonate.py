@@ -24,9 +24,13 @@ BrowserTypeLiteral = Literal[
     "chrome123",
     "chrome124",
     "chrome131",
+    "chrome133",
     "chrome133a",
+    "chrome141",
     "chrome136",
     "chrome142",
+    "chrome143",
+    "chrome144",
     "chrome145",
     "chrome146",
     "chrome99_android",
@@ -156,9 +160,13 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     chrome123 = "chrome123"
     chrome124 = "chrome124"
     chrome131 = "chrome131"
+    chrome133 = "chrome133"
     chrome133a = "chrome133a"
+    chrome141 = "chrome141"
     chrome136 = "chrome136"
     chrome142 = "chrome142"
+    chrome143 = "chrome143"
+    chrome144 = "chrome144"
     chrome145 = "chrome145"
     chrome146 = "chrome146"
     chrome99_android = "chrome99_android"
@@ -167,8 +175,11 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     safari155 = "safari155"
     safari170 = "safari170"
     safari172_ios = "safari172_ios"
+    safari17_ios = "safari17_ios"
+    safari18 = "safari18"
     safari180 = "safari180"
     safari180_ios = "safari180_ios"
+    safari18_ios = "safari18_ios"
     safari184 = "safari184"
     safari184_ios = "safari184_ios"
     safari260 = "safari260"

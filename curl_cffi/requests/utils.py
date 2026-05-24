@@ -565,12 +565,25 @@ def _apply_fingerprint(
             curl.setopt(CurlOpt.HTTPHEADER, [h.encode() for h in header_lines])
 
 
-def apply_custom_profile(curl: Curl, profile_name: object):
+def apply_custom_profile(
+    curl: Curl, profile_name: object, default_headers: bool = True
+):
     profile = get_custom_profile(profile_name)
     if profile is None:
         return None
 
-    set_ja3_options(curl, profile.ja3, permute=profile.permute_extensions)
+    if profile.base_impersonate:
+        ret = curl.impersonate(
+            profile.base_impersonate,
+            default_headers=default_headers,  # type: ignore[arg-type]
+        )
+        if ret != 0:
+            raise ImpersonateError(
+                f"Impersonating {profile.base_impersonate} is not supported"
+            )
+
+    if profile.ja3:
+        set_ja3_options(curl, profile.ja3, permute=profile.permute_extensions)
     if profile.extra_fp:
         if isinstance(profile.extra_fp, dict):
             extra_fp = ExtraFingerprints(**profile.extra_fp)
@@ -687,7 +700,7 @@ def set_curl_options(
     base_headers, headers = headers_list
     custom_profile = None
     if impersonate:
-        custom_profile = apply_custom_profile(c, impersonate)
+        custom_profile = apply_custom_profile(c, impersonate, default_headers)
 
     # let headers encoding take precedence over base headers encoding
     encoding = headers.encoding if isinstance(headers, Headers) else None

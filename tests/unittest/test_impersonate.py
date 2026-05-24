@@ -10,9 +10,14 @@ from curl_cffi.const import CurlOpt
 class DummyCurl:
     def __init__(self):
         self.options = []
+        self.impersonations = []
 
     def setopt(self, option, setting):
         self.options.append((option, setting))
+
+    def impersonate(self, target, default_headers=True):
+        self.impersonations.append((target, default_headers))
+        return 0
 
 
 def test_impersonate_with_version(server):
@@ -53,8 +58,15 @@ def test_impersonate_non_exist(server):
 def test_custom_mobile_profiles_registered():
     for name in [
         "okhttp4_android10",
+        "chrome133",
+        "chrome141",
+        "chrome143",
+        "chrome144",
         "uc110_9",
         "uc17_9",
+        "safari18",
+        "safari18_ios",
+        "safari17_ios",
         "samsung27_1",
         "xiaomi15_9",
     ]:
@@ -66,12 +78,30 @@ def test_custom_mobile_profiles_registered():
     "profile_name, expected",
     [
         (
+            "chrome141",
+            {
+                "impersonate": "chrome145",
+            },
+        ),
+        (
+            "chrome144",
+            {
+                "impersonate": "chrome146",
+            },
+        ),
+        (
             "okhttp4_android10",
             {
                 CurlOpt.HTTP2_SETTINGS: "4:16777216",
                 CurlOpt.HTTP2_WINDOW_UPDATE: 16711681,
                 CurlOpt.HTTP2_PSEUDO_HEADERS_ORDER: "masp",
                 CurlOpt.SSL_CERT_COMPRESSION: "",
+            },
+        ),
+        (
+            "safari17_ios",
+            {
+                "impersonate": "safari172_ios",
             },
         ),
         (
@@ -95,7 +125,11 @@ def test_apply_custom_mobile_profile(profile_name, expected):
     curl = DummyCurl()
     profile = apply_custom_profile(curl, profile_name)
     assert profile is not None
+    if "impersonate" in expected:
+        assert expected["impersonate"] == curl.impersonations[0][0]
     for option, value in expected.items():
+        if option == "impersonate":
+            continue
         assert (option, value) in curl.options
 
 

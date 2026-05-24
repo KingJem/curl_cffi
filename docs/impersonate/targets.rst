@@ -24,9 +24,13 @@ to specify your own customized fingerprints. See below for details.
 - chrome123 :sup:`3`
 - chrome124 :sup:`3`
 - chrome131 :sup:`5`
+- chrome133 :sup:`14`
 - chrome133a :sup:`5` :sup:`6`
+- chrome141 :sup:`14`
 - chrome136 :sup:`8`
 - chrome142 :sup:`11`
+- chrome143 :sup:`14`
+- chrome144 :sup:`14`
 - chrome145 :sup:`13` :sup:`14`
 - chrome146 :sup:`13` :sup:`14`
 - chrome99_android
@@ -37,8 +41,11 @@ to specify your own customized fingerprints. See below for details.
 - safari155 :sup:`2` :sup:`9`
 - safari170 :sup:`1` :sup:`9`
 - safari172_ios :sup:`1` :sup:`9`
+- safari17_ios :sup:`14`
+- safari18 :sup:`14`
 - safari180 :sup:`4` :sup:`9`
 - safari180_ios :sup:`4` :sup:`9`
+- safari18_ios :sup:`14`
 - safari184 :sup:`8` :sup:`9`
 - safari184_ios :sup:`8` :sup:`9`
 - safari260 :sup:`9` :sup:`10`
@@ -66,6 +73,9 @@ Notes:
 12. Fixed in version ``0.15.0``, previous User-Agent header was `not correct <https://github.com/lexiforest/curl-impersonate/issues/234>`_.
 13. Added in version ``0.15.0``.
 14. http3 support included.
+15. ``chrome133``, ``chrome141``, ``chrome143``, ``chrome144``, ``safari17_ios``,
+    ``safari18`` and ``safari18_ios`` are best-effort compatibility names for
+    the corresponding versions exposed by `httpcloak <https://github.com/sardanioss/httpcloak>`_.
 
 
 Which target version to use?

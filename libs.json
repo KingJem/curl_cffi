@@ -45,8 +45,7 @@
         "sysname": "macos",
         "link_type": "static",
         "obj_name": "libcurl-impersonate.a",
-        "arch": "arm64",
-        "local_libdir": "~/.local/lib/curl_cffi_custom"
+        "arch": "arm64"
     },
     {
         "system": "Linux",

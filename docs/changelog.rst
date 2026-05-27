@@ -3,6 +3,11 @@ Change Log
 
 Please see the `GitHub Releases <https://github.com/lexiforest/curl_cffi/releases>`_ page for details.
 
+- v0.15.2
+    - Added chrome platform variants and mobile preset aliases.
+    - Bumped the package version for the next release.
+    - Pointed release downloads at the configured curl-impersonate repository.
+
 - v0.13
     - Added support for Windows on Arm
     - Improved support for websockets

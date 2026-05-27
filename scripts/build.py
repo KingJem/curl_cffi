@@ -83,7 +83,7 @@ def download_libcurl():
     sysname = "linux-" + arch["libc"] if arch["system"] == "Linux" else arch["sysname"]
 
     url = (
-        f"https://github.com/lexiforest/curl-impersonate/releases/download/"
+        f"https://github.com/KingJem/curl-impersonate/releases/download/"
         f"v{__version__}/libcurl-impersonate-v{__version__}"
         f".{arch['arch']}-{sysname}.tar.gz"
     )

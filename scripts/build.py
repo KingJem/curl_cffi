@@ -4,7 +4,6 @@ import platform
 import shutil
 import struct
 import sys
-import tempfile
 from glob import glob
 from pathlib import Path
 from urllib.request import urlretrieve
@@ -12,7 +11,8 @@ from urllib.request import urlretrieve
 from cffi import FFI
 
 # this is the upstream libcurl-impersonate version
-__version__ = "2.0.0a5"
+__version__ = "1.5.3"
+root_dir = Path(__file__).parent.parent
 
 
 def is_android_env() -> bool:
@@ -26,7 +26,7 @@ def is_android_env() -> bool:
 
 
 def detect_arch():
-    with open(Path(__file__).parent.parent / "libs.json") as f:
+    with open(root_dir / "libs.json") as f:
         archs = json.loads(f.read())
 
     uname = platform.uname()
@@ -50,16 +50,17 @@ def detect_arch():
             if arch.get("libdir"):
                 arch["libdir"] = os.path.expanduser(arch["libdir"])
             else:
-                if "CI" in os.environ:
-                    tmpdir = "./tmplibdir"
-                    os.makedirs(tmpdir, exist_ok=True)
-                    arch["libdir"] = tmpdir
-                else:
-                    if arch.get("local_libdir"):
-                        arch["libdir"] = os.path.expanduser(arch["local_libdir"])
-                    else:
-                        tmpdir = tempfile.TemporaryDirectory()
-                        arch["libdir"] = tmpdir.name
+                sysname = (
+                    "linux-" + arch["libc"]
+                    if arch["system"] == "Linux"
+                    else arch["sysname"]
+                )
+                arch["libdir"] = str(
+                    root_dir
+                    / "build"
+                    / "libcurl-impersonate"
+                    / f"{arch['arch']}-{sysname}"
+                )
             return arch
     raise Exception(f"Unsupported arch: {uname}")
 
@@ -83,7 +84,7 @@ def download_libcurl():
     sysname = "linux-" + arch["libc"] if arch["system"] == "Linux" else arch["sysname"]
 
     url = (
-        f"https://github.com/lexiforest/curl-impersonate/releases/download/"
+        f"https://github.com/KingJem/curl-impersonate/releases/download/"
         f"v{__version__}/libcurl-impersonate-v{__version__}"
         f".{arch['arch']}-{sysname}.tar.gz"
     )
@@ -142,7 +143,6 @@ def get_curl_libraries():
 
 ffibuilder = FFI()
 system = platform.system()
-root_dir = Path(__file__).parent.parent
 download_libcurl()
 
 # With mega archive, we only have one to link
@@ -162,6 +162,11 @@ if is_static:
             "-Wl,--no-whole-archive",
             cxx_lib,
         ]
+elif is_dynamic and system == "Darwin":
+    extra_link_args = [
+        "-Wl,-headerpad_max_install_names",
+        f"-Wl,-rpath,{libdir}",
+    ]
 
 libraries = get_curl_libraries()
 

@@ -2,6 +2,7 @@ import pytest
 
 from curl_cffi import requests
 from curl_cffi.const import CurlHttpVersion, CurlSslVersion
+from curl_cffi.fingerprints import NATIVE_IMPERSONATE_TARGETS
 from curl_cffi.requests.custom_profiles import get_custom_profile
 from curl_cffi.requests.utils import apply_custom_profile
 from curl_cffi.const import CurlOpt
@@ -93,11 +94,6 @@ def test_custom_mobile_profiles_registered():
         "chrome145_linux",
         "chrome145_android",
         "chrome145_ios",
-        "chrome146_windows",
-        "chrome146_macos",
-        "chrome146_linux",
-        "chrome146_android",
-        "chrome146_ios",
         "uc110_9",
         "uc17_9",
         "safari18",
@@ -108,6 +104,24 @@ def test_custom_mobile_profiles_registered():
     ]:
         assert get_custom_profile(name) is not None
     assert get_custom_profile("does_not_exist") is None
+
+
+def test_new_native_profiles_registered():
+    targets = {item["target_name"] for item in NATIVE_IMPERSONATE_TARGETS}
+    for name in [
+        "chrome146_windows",
+        "chrome146_macos",
+        "chrome146_linux",
+        "chrome146_android",
+        "chrome146_ios",
+        "chrome148",
+        "chrome149",
+        "firefox135_mac",
+        "firefox135_win",
+        "firefox151",
+    ]:
+        assert name in targets
+        assert get_custom_profile(name) is None
 
 
 @pytest.mark.parametrize(
@@ -149,14 +163,6 @@ def test_custom_mobile_profiles_registered():
                 "impersonate": "safari260_ios",
                 "ua_contains": "CriOS/145.0.0.0",
                 "platform": '"iOS"',
-            },
-        ),
-        (
-            "chrome146_linux",
-            {
-                "impersonate": "chrome146",
-                "ua_contains": "Chrome/146.0.0.0",
-                "platform": '"Linux"',
             },
         ),
         (

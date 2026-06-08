@@ -72,6 +72,8 @@ BrowserTypeLiteral = Literal[
     # Firefox
     "firefox133",
     "firefox135",
+    "firefox135_mac",
+    "firefox135_win",
     "firefox144",
     "firefox147",
     "firefox151",
@@ -232,6 +234,8 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     safari2601 = "safari2601"
     firefox133 = "firefox133"
     firefox135 = "firefox135"
+    firefox135_mac = "firefox135_mac"
+    firefox135_win = "firefox135_win"
     firefox144 = "firefox144"
     firefox147 = "firefox147"
     firefox151 = "firefox151"

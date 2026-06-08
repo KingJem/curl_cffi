@@ -174,7 +174,6 @@ for version, desktop_base in (
     (143, "chrome145"),
     (144, "chrome146"),
     (145, "chrome145"),
-    (146, "chrome146"),
 ):
     CHROME_PLATFORM_PROFILES[f"chrome{version}_windows"] = _chrome_profile(
         version, platform="Windows", base_impersonate=desktop_base

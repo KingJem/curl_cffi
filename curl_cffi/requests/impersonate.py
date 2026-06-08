@@ -33,6 +33,7 @@ BrowserTypeLiteral = Literal[
     "chrome144",
     "chrome145",
     "chrome146",
+    "chrome149",
     "chrome143_windows",
     "chrome143_macos",
     "chrome143_linux",
@@ -189,6 +190,7 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     chrome144 = "chrome144"
     chrome145 = "chrome145"
     chrome146 = "chrome146"
+    chrome149 = "chrome149"
     chrome143_windows = "chrome143_windows"
     chrome143_macos = "chrome143_macos"
     chrome143_linux = "chrome143_linux"

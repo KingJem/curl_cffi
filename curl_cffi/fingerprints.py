@@ -169,6 +169,14 @@ NATIVE_IMPERSONATE_TARGETS = [
     },
     {
         "browser": "Chrome",
+        "version": "148",
+        "os": "Windows",
+        "os_version": "10",
+        "target_name": "chrome148",
+        "h3_fingerprints": True,
+    },
+    {
+        "browser": "Chrome",
         "version": "149",
         "os": "Windows",
         "os_version": "10",
@@ -325,6 +333,14 @@ NATIVE_IMPERSONATE_TARGETS = [
         "os": "macOS",
         "os_version": "Tahoe",
         "target_name": "firefox147",
+        "h3_fingerprints": True,
+    },
+    {
+        "browser": "Firefox",
+        "version": "151.0",
+        "os": "Windows",
+        "os_version": "10",
+        "target_name": "firefox151",
         "h3_fingerprints": True,
     },
     {

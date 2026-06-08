@@ -33,6 +33,7 @@ BrowserTypeLiteral = Literal[
     "chrome144",
     "chrome145",
     "chrome146",
+    "chrome148",
     "chrome149",
     "chrome143_windows",
     "chrome143_macos",
@@ -73,6 +74,7 @@ BrowserTypeLiteral = Literal[
     "firefox135",
     "firefox144",
     "firefox147",
+    "firefox151",
     "tor145",
     # Brave (custom profiles)
     "brave136_mac",
@@ -190,6 +192,7 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     chrome144 = "chrome144"
     chrome145 = "chrome145"
     chrome146 = "chrome146"
+    chrome148 = "chrome148"
     chrome149 = "chrome149"
     chrome143_windows = "chrome143_windows"
     chrome143_macos = "chrome143_macos"
@@ -231,6 +234,7 @@ class BrowserType(str, Enum):  # TODO: remove in version 1.x
     firefox135 = "firefox135"
     firefox144 = "firefox144"
     firefox147 = "firefox147"
+    firefox151 = "firefox151"
     tor145 = "tor145"
     # Brave (custom profiles)
     brave136_mac = "brave136_mac"

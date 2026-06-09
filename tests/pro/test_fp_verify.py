@@ -4,6 +4,8 @@ import re
 from itertools import zip_longest
 from urllib.parse import urlencode
 
+import pytest
+
 from curl_cffi import requests
 from curl_cffi.fingerprints import FingerprintManager, NATIVE_IMPERSONATE_TARGETS
 
@@ -569,6 +571,10 @@ def test_mismatch_output_labels_expected_and_captured_values():
     }
 
 
+@pytest.mark.skipif(
+    not os.environ.get("IMPERSONATE_API_KEY"),
+    reason="IMPERSONATE_API_KEY is required for live pro fingerprint verification",
+)
 def test_live_fingerprint_data_matches_runtime_output(monkeypatch, tmp_path):
     api_key = _require_live_api_key()
     monkeypatch.setenv("IMPERSONATE_CONFIG_DIR", str(tmp_path))

@@ -18,7 +18,6 @@ curl-*/
 *.tar.xz
 *.tar.gz
 .preprocessed
-include/
 .DS_Store
 
 .mypy_cache/

@@ -96,7 +96,6 @@ build = [
     "cp314t-musllinux_x86_64",
     "cp314t-musllinux_aarch64",
 ]
-before-all = "make preprocess"
 test-requires = "pytest"
 test-command = "python -bb -m pytest {project}/tests/unittest"
 test-extras = ["test"]
@@ -125,7 +124,6 @@ archs = ["arm64_v8a", "x86_64"]
 
 
 [tool.cibuildwheel.macos]
-before-all = "gmake preprocess"
 
 [tool.cibuildwheel.windows]
 before-build = "pip install delvewheel"

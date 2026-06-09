@@ -9,7 +9,6 @@
 依赖：pip install curl-cffi
 """
 
-import json
 import curl_cffi.requests as requests
 
 URL = "https://tls.browserleaks.com/json"

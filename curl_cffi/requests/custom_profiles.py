@@ -120,7 +120,7 @@ def _safari_ios_headers(version: str, ios_version: str) -> dict[str, str]:
 
 OKHTTP4_ANDROID10 = CustomProfileSpec(
     ja3="771,4865-4866-4867-49195-49196-52393-49199-49200-52392-49171-49172-156-157-47-53,0-23-65281-10-11-35-16-5-13-51-45-43,29-23-24,0",
-    akamai="4:16777216|16711681|0|m,p,a,s",
+    akamai="4:16777216|16711681|0|m,a,s,p",
     extra_fp={
         "tls_signature_algorithms": [
             "ecdsa_secp256r1_sha256",
